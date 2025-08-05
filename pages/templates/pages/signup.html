@@ -11,12 +11,13 @@
     </head>
     <body>
    <body class="bg-light">
-    <div class="container mt-5">
-        <h2 class="mb-4 text-center">Create an Account</h2>
-
-        <div class="card shadow-sm">
+     <div class="container d-flex justify-content-center ">
+         
+       
+        <div class="card p-4 shadow" style="min-width: 500px;">
+           <h2 class="mb-4 text-center">Create an Account</h2>
             <div class="card-body">
-                <form method="post" novalidate>
+                <form method="post" novalidate class=" ">
                     {% csrf_token %}
 
                     {% if form_data.non_field_errors %}
@@ -25,7 +26,8 @@
                         </div>
                     {% endif %}
 
-                    {% for field in form_data %}
+                    {% for field in form %}
+
                         <div class="mb-3">
                             <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label><br><br>
                             {{ field }}
@@ -42,6 +44,7 @@
             </div>
         </div>
     </div> 
+    
  
     <script src="/static/bootstrap-5.3.7-dist/js/bootstrap.bundle.js" async defer></script>
     </body>
