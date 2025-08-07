@@ -8,18 +8,17 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="/static/bootstrap-5.3.7-dist/css/bootstrap.min.css">
-        <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"> -->
-
     </head>
-    <body>
-        {% include 'pages/navbar.html' %}
+    
+<body>
+    {% include 'pages/navbar.html' %}
     
     <div class="container mt-4">
         {% block content %}
         {% endblock %}
     </div>
-      <h1>Welcome, Manager!</h1>
-  <div class="container-fluid">
+
+      <div class="container-fluid">
   <div class="row">
     <!-- Sidebar -->
     <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar py-4">
@@ -29,18 +28,28 @@
             <i class="bi bi-box-seam"></i> Manage Stock
              </a> -->
 
-          <a class="nav-link active" aria-current="page" href="{% url 'manager' %}">
+          <a class="nav-link active" aria-current="page" href="{% url 'salesagent' %}">
             <strong>Dashboard</strong>
           </a>
         </li>
-        <li class="nav-item mb-2">
-          <a class="nav-link" href="{% url 'stock' %}">Manage Stock</a>
+
+           <li class="nav-item">
+             
+            </li>
+            <li class="nav-item">
+              
+            </li>
+            <li class="nav-item mb-2">
+          <a class="nav-link" href="{% url 'register_farmer' %}">Register Farmer</a>
         </li>
-        <li class="nav-item mb-2">
-          <a class="nav-link" href="{% url 'approve_requests' %}">Approve Requests</a>
+         <li class="nav-item mb-2">
+          <a class="nav-link" href="{% url 'record_requests' %}">Record Requests</a>
         </li>
-        <li class="nav-item mb-2">
-          <a class="nav-link" href="{% url 'farmers_list' %}">Farmers</a>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'approved_sales' %}">Approved Sales</a>
+            </li>
+       
+    
         </li>
       </ul>
     </nav>
@@ -51,6 +60,9 @@
     </main>
   </div>
 </div>
+</body>
+</html>
+
 
         
         <script src="/static/bootstrap-5.3.7-dist/js/bootstrap.bundle.js" async defer></script>

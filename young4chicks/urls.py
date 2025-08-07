@@ -24,4 +24,16 @@ urlpatterns = [
     path('login/', views.loginpage, name='login'),
     path('', views.homepage, name='home'),
     path('manager/', views.manager_dashboard, name='manager'), 
+    path('saleagent/', views.salesagent, name='salesagent'),
+    path('farmer/', views.homepage, name='home'),
+    path('my_requests/', views.my_requests, name='my_requests'),
+    path('profile/', views.profile_view, name='profile'), 
+    path('logout/', views.logout, name='logout'),
+    path('stock/', views.stock, name='stock'),
+    path('approve_requests/', views.approve_requests, name='approve_requests'),
+    path('farmers_list/', views.farmers_list, name='farmers_list'),
+    path('approved_sales/', views.approved_sales, name='approved_sales'),
+    path('record_requests/', views.record_requests, name='record_requests'),
+    path('register-farmer/', views.register_farmer, name='register_farmer'),
 ]
+
