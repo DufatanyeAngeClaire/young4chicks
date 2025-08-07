@@ -18,18 +18,22 @@ class ChickrequestForm(forms.ModelForm):
             'feed_needed',
             'chickperiod',
         ]
-    widgets = {
-    'farmer_name': forms.Select(attrs={'class': 'form-control'}),
-    'chick_type': forms.Select(attrs={'class': 'form-control'}),
-    'chick_quantity': forms.NumberInput(attrs={'class': 'form-control'}),
-    'feed_needed': forms.Select(attrs={'class': 'form-control'}),
-    'chickperiod': forms.NumberInput(attrs={'class': 'form-control'}),
-}
-
+        widgets = {
+            'farmer_name': forms.Select(attrs={'class': 'form-control'}),
+            'chick_type': forms.Select(attrs={'class': 'form-control'}),
+            'chick_quantity': forms.NumberInput(attrs={'class': 'form-control'}),
+            'feed_needed': forms.Select(attrs={'class': 'form-control'}),
+            'chickperiod': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
 
     def __init__(self, *args, **kwargs):
-        self.farmer = kwargs.pop('farmer')
+        self.farmer = kwargs.pop('farmer', None)
         super().__init__(*args, **kwargs)
+
+        # Auto-hide farmer_name if farmer provided
+        if self.farmer:
+            self.fields['farmer_name'].widget = forms.HiddenInput()
+            self.initial['farmer_name'] = self.farmer.id
 
     def clean(self):
         cleaned_data = super().clean()
@@ -43,6 +47,7 @@ class ChickrequestForm(forms.ModelForm):
 
             elif farmer_type == 'returning' and (quantity < 1 or quantity > 500):
                 self.add_error('chick_quantity', 'Returning farmers must request between 1 and 500 chicks.')
+
 
 class FarmerRegistrationForm(forms.ModelForm):
     farmer_name = forms.CharField(

@@ -26,6 +26,13 @@ urlpatterns = [
     path('manager/', views.manager_dashboard, name='manager'), 
     path('saleagent/', views.salesagent, name='salesagent'),
     path('farmer/', views.homepage, name='home'),
+    path('farmer/<int:id>/edit/', views.edit_farmer, name='edit_farmer'),
+    path('farmer/<int:id>/delete/', views.delete_farmer, name='delete_farmer'),
+    path('farmer/<int:id>/request/', views.request_chicks, name='request_chicks'),
+    path('register-farmer/<int:id>/', views.register_farmer, name='register_farmer'),
+
+
+
     path('my_requests/', views.my_requests, name='my_requests'),
     path('profile/', views.profile_view, name='profile'), 
     path('logout/', views.logout, name='logout'),

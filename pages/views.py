@@ -14,7 +14,10 @@ from django.shortcuts import render, redirect
 from .forms import ChickrequestForm
 from .forms import FarmerRegistrationForm
 from .models import Farmer
-
+from django.http import HttpResponse
+from django.urls import reverse
+from django.shortcuts import render, get_object_or_404, redirect
+from django.db.models import Q
 
 # Create your views here.
 
@@ -73,10 +76,46 @@ def stock(request):
 def approve_requests(request):
     return render(request, 'pages/approve_requests.html')
 
-
 def farmers_list(request):
-    farmers = Farmer.objects.all()
+    query = request.GET.get('q')
+    if query:
+        farmers = Farmer.objects.filter(
+            Q(farmer_name__icontains=query) |
+            Q(farmer_nin__icontains=query) |
+            Q(farmer_type__icontains=query)
+        )
+    else:
+        farmers = Farmer.objects.all()
     return render(request, 'pages/farmers_list.html', {'farmers': farmers})
+
+def edit_farmer(request, id):
+    farmer = get_object_or_404(Farmer, id=id)
+    form = FarmerRegistrationForm(request.POST or None, instance=farmer)
+    if form.is_valid():
+        form.save()
+        return redirect('farmers_list')
+    return render(request, 'pages/register_farmer.html', {'form': form})
+
+def delete_farmer(request, id):
+    farmer = get_object_or_404(Farmer, id=id)
+    farmer.delete()
+    return redirect('farmers_list')
+
+def request_chicks(request, id):
+    farmer = get_object_or_404(Farmer, id=id)
+    # You can store farmer ID in session or pass via GET to prefill request form
+    return redirect('record_requests')  # Or pass data via query params
+
+@login_required
+def register_farmer(request, id=None):
+    farmer = Farmer.objects.get(pk=id) if id else None
+    form = FarmerRegistrationForm(request.POST or None, instance=farmer)
+    if form.is_valid():
+        form.save()
+        return redirect('farmers_list')
+    return render(request, 'pages/register_farmer.html', {'form': form})
+
+
 
 def approved_sales(request):
     return render(request, 'pages/approved_sales.html')
@@ -91,9 +130,8 @@ def record_requests(request):
 
     # If no farmer profile is found, redirect or show error
     if not farmer:
-        return render(request, 'pages/error.html', {
-            'message': 'You must register as a farmer before making a request.'
-        })
+     from django.http import HttpResponse
+
 
     if request.method == 'POST':
         form = ChickrequestForm(request.POST, farmer=farmer)
@@ -107,31 +145,22 @@ def record_requests(request):
 
     return render(request, 'pages/record_requests.html', {'form': form})
 
-
 @login_required
-def register_farmer(request):
-    if request.method == 'POST':
-        form = FarmerRegistrationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('farmers_list')  # Or wherever you want after registration
-    else:
-        form = FarmerRegistrationForm()
+def register_farmer(request, id=None):
+    farmer = None
+    if id:
+        farmer = get_object_or_404(Farmer, id=id)
+
+    farmer = Farmer.objects.get(pk=id) if id else None
+    form = FarmerRegistrationForm(request.POST or None, instance=farmer)
+    if form.is_valid():
+        form.save()
+        return redirect('farmers_list')
     return render(request, 'pages/register_farmer.html', {'form': form})
 
-from django.shortcuts import render
 
-def your_view(request):
-    user_is_farmer = False
-    if request.user.is_authenticated:
-        # Check if Farmer object exists for this user
-        user_is_farmer = hasattr(request.user, 'farmer')
 
-    context = {
-        'user_is_farmer': user_is_farmer,
-        'message': 'Your message here',
-    }
-    return render(request, 'pages/error.html', context)
+
 
 
 
