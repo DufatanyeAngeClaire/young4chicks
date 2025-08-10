@@ -1,68 +1,54 @@
-<!DOCTYPE html>
-
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="/static/bootstrap-5.3.7-dist/css/bootstrap.min.css">
-    </head>
-    <body>
-      <style>
-        .img_fluid{
-          width: 80px;
-          height: 60px;
-        }
-      </style>
-       <!-- templates/navbar.html -->
+<!-- templates/navbar.html -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#"><img src="/static/image/alvioni__fashion_brand_art_design_logo_20250807_232048_0000-removebg-preview.png" class="img_fluid"></a>
+    <a class="navbar-brand" href="#">
+      <img src="/static/image/alvioni__fashion_brand_art_design_logo_20250807_232048_0000-removebg-preview.png" class="img_fluid" alt="Logo" style="width: 60px; height: 60px;">
+    </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-      
 
         {% if user.is_authenticated %}
-          {% if user.is_manager %}
-          
+          {% if user.user_type == 'manager' %}
+            <!-- Manager menu items here -->
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'manager' %}">Manager Dashboard</a>
             </li>
 
-          {% elif user.is_salesagent %}
+          {% elif user.user_type == 'sales_agent' %}
+            <!-- Sales agent menu items here -->
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'sales_agent_dashboard' %}">Sales Agent Dashboard</a>
+            </li>
 
           {% else %}
-            <!-- Customer (Young Farmer) -->
-            <li class="nav-item justify-content-center">
-          
-
-       <div class="d-flex ">
-  <form class="d-flex">
-    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-    <button class="btn btn-outline-success" type="submit">Search</button>
-  </form>
-</div>
+            <!-- Young Farmer / Customer -->
+            <li class="nav-item">
+              <form class="d-flex" method="GET" action="{% url 'search' %}">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="q" />
+                <button class="btn btn-outline-success" type="submit">Search</button>
+              </form>
             </li>
-            
           {% endif %}
+        {% else %}
+          <!-- User not logged in -->
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'login' %}">Login</a>
+          </li>
         {% endif %}
+
       </ul>
 
       <ul class="navbar-nav ms-auto">
+        {% if user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'login' %}">Staff</a>
+            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
           </li>
-      
+        {% endif %}
       </ul>
     </div>
   </div>
 </nav>
-
-        
-        <script src="/static/bootstrap-5.3.7-dist/js/bootstrap.bundle.js" async defer></script>
-    </body>
-</html>

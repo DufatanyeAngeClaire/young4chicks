@@ -1,18 +1,49 @@
-<!DOCTYPE html>
+{% extends 'pages/base.html' %}
+{% block content %}
+  <h2>Make a New Chick Request</h2>
+  
+  <form method="POST" novalidate>
+    {% csrf_token %}
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label for="{{ form.farmer_name.id_for_label }}" class="form-label">{{ form.farmer_name.label }}</label>
+        {{ form.farmer_name }}
+        {% if form.farmer_name.errors %}
+          <div class="text-danger">{{ form.farmer_name.errors }}</div>
+        {% endif %}
+      </div>
+      <div class="col-md-6">
+        <label for="{{ form.chick_type.id_for_label }}" class="form-label">{{ form.chick_type.label }}</label>
+        {{ form.chick_type }}
+        {% if form.chick_type.errors %}
+          <div class="text-danger">{{ form.chick_type.errors }}</div>
+        {% endif %}
+      </div>
+      <div class="col-md-6">
+        <label for="{{ form.chick_quantity.id_for_label }}" class="form-label">{{ form.chick_quantity.label }}</label>
+        {{ form.chick_quantity }}
+        {% if form.chick_quantity.errors %}
+          <div class="text-danger">{{ form.chick_quantity.errors }}</div>
+        {% endif %}
+      </div>
+      <div class="col-md-6">
+        <label for="{{ form.feed_needed.id_for_label }}" class="form-label">{{ form.feed_needed.label }}</label>
+        {{ form.feed_needed }}
+        {% if form.feed_needed.errors %}
+          <div class="text-danger">{{ form.feed_needed.errors }}</div>
+        {% endif %}
+      </div>
+      <div class="col-md-6">
+        <label for="{{ form.chickperiod.id_for_label }}" class="form-label">{{ form.chickperiod.label }}</label>
+        {{ form.chickperiod }}
+        {% if form.chickperiod.errors %}
+          <div class="text-danger">{{ form.chickperiod.errors }}</div>
+        {% endif %}
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+  </form>
 
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="/static/bootstrap-5.3.7-dist/css/bootstrap.min.css">
-    </head>
-    <body>
-     <h1>your order</h1>
+  <hr>
 
-     
-        <script src="/static/bootstrap-5.3.7-dist/js/bootstrap.bundle.js" async defer></script>
-    </body>
-</html>
+{% endblock %}

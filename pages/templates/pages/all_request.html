@@ -1,0 +1,52 @@
+{% extends 'pages/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2>All Chick Requests</h2>
+
+  {% if requests %}
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Farmer</th>
+          <th>Chick Type</th>
+          <th>Quantity</th>
+          <th>Status</th>
+          <th>Feed Needed</th>
+          <th>Period (days)</th>
+          <th>Requested By</th>
+          <th>Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for req in requests %}
+          <tr>
+            <td>{{ req.farmer_name }}</td>
+            <td>{{ req.chick_type }}</td>
+            <td>{{ req.chick_quantity }}</td>
+            <td>{{ req.get_chick_status_display }}</td>
+            <td>{{ req.feed_needed }}</td>
+            <td>{{ req.chickperiod }}</td>
+            <td>{{ req.sales_agent }}</td>
+            <td>{{ req.chick_date|date:"Y-m-d H:i" }}</td>
+           <td>
+  {% if request.user == req.sales_agent %}
+  <a href="{% url 'record_request' req.id %}" class="btn btn-sm btn-warning">Edit</a>
+    <a href="{% url 'delete_request' req.id %}" class="btn btn-sm btn-danger" onclick="return confirm('Delete this request?');">Delete</a>
+  {% endif %}
+  {% if request.user.user_type == 'manager' and req.chick_status == 'pending' %}
+    <a href="{% url 'approve_request' req.id %}" class="btn btn-sm btn-success">Approve</a>
+    <a href="{% url 'reject_request' req.id %}" class="btn btn-sm btn-danger">Reject</a>
+  {% endif %}
+</td>
+
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No chick requests found.</p>
+  {% endif %}
+</div>
+{% endblock %}

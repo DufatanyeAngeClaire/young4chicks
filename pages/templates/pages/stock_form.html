@@ -1,0 +1,70 @@
+{% extends "pages/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2>Add / Update Stock</h2>
+  <form method="POST" novalidate>
+    {% csrf_token %}
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label for="{{ form.stock_name.id_for_label }}" class="form-label">{{ form.stock_name.label }}</label>
+        {{ form.stock_name }}
+        {% if form.stock_name.errors %}
+          <div class="text-danger">{{ form.stock_name.errors }}</div>
+        {% endif %}
+      </div>
+
+      <div class="col-md-6">
+        <label for="{{ form.quantity.id_for_label }}" class="form-label">{{ form.quantity.label }}</label>
+        {{ form.quantity }}
+        {% if form.quantity.errors %}
+          <div class="text-danger">{{ form.quantity.errors }}</div>
+        {% endif %}
+      </div>
+
+      <div class="col-md-6">
+        <label for="{{ form.chick_type.id_for_label }}" class="form-label">{{ form.chick_type.label }}</label>
+        {{ form.chick_type }}
+        {% if form.chick_type.errors %}
+          <div class="text-danger">{{ form.chick_type.errors }}</div>
+        {% endif %}
+      </div>
+
+      <div class="col-md-6">
+        <label for="{{ form.chick_breed.id_for_label }}" class="form-label">{{ form.chick_breed.label }}</label>
+        {{ form.chick_breed }}
+        {% if form.chick_breed.errors %}
+          <div class="text-danger">{{ form.chick_breed.errors }}</div>
+        {% endif %}
+      </div>
+
+      <div class="col-md-6">
+        <label for="{{ form.chick_price.id_for_label }}" class="form-label">{{ form.chick_price.label }}</label>
+        {{ form.chick_price }}
+        {% if form.chick_price.errors %}
+          <div class="text-danger">{{ form.chick_price.errors }}</div>
+        {% endif %}
+      </div>
+
+      <div class="col-md-6">
+        <label for="{{ form.register_name.id_for_label }}" class="form-label">{{ form.register_name.label }}</label>
+        {{ form.register_name }}
+        {% if form.register_name.errors %}
+          <div class="text-danger">{{ form.register_name.errors }}</div>
+        {% endif %}
+      </div>
+
+      <div class="col-md-6">
+        <label for="{{ form.chick_age.id_for_label }}" class="form-label">{{ form.chick_age.label }}</label>
+        {{ form.chick_age }}
+        {% if form.chick_age.errors %}
+          <div class="text-danger">{{ form.chick_age.errors }}</div>
+        {% endif %}
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Save</button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'pages/base.html' %}
+{% block content %}
+
+<h2> Requests</h2>
+  {% if requests %}
+    <table class="table table-striped mt-3">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Farmer</th>
+          <th>Chick Type</th>
+          <th>Quantity</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for req in requests %}
+          <tr>
+            <td>{{ req.id }}</td>
+            <td>{{ req.farmer_name }}</td>
+            <td>{{ req.chick_type }}</td>
+            <td>{{ req.chick_quantity }}</td>
+            <td>{{ req.chick_status }}</td>
+            <td>
+            <a href="{% url 'record_request' req.id %}" class="btn btn-sm btn-warning">Edit</a>
+
+              <a href="{% url 'delete_request' req.id %}" class="btn btn-sm btn-danger" 
+                 onclick="return confirm('Are you sure you want to delete this request?');">Delete</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>You have no chick requests yet.</p>
+  {% endif %}
+{% endblock %}

@@ -2,11 +2,66 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from .models import Userprofile, Chickrequest
 from .models import Farmer
-
+from .models import  Stock, Chickrequest
 class SignupForm(UserCreationForm):
     class Meta:
         model = Userprofile
         fields = ['username', 'email', 'password1', 'password2', 'user_type']
+
+from django import forms
+
+from .models import Stock
+
+class StockForm(forms.ModelForm):
+    class Meta:
+        model = Stock
+        fields = ['stock_name', 'quantity', 'chick_type', 'chick_breed', 'chick_price', 'register_name', 'chick_age']
+        widgets = {
+            'stock_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'quantity': forms.NumberInput(attrs={'class': 'form-control'}),
+            'chick_type': forms.Select(attrs={'class': 'form-select'}),
+            'chick_breed': forms.Select(attrs={'class': 'form-select'}),
+            'chick_price': forms.NumberInput(attrs={'class': 'form-control'}),
+            'register_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'chick_age': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
+
+class ChickStockForm(forms.ModelForm):
+    class Meta:
+        model = Stock
+        fields = ['chick_breed', 'stock_name', 'quantity', 'chick_type', 'chick_price', 'register_name', 'chick_age']
+class ChickRequestApprovalForm(forms.ModelForm):
+    class Meta:
+        model = Chickrequest
+        fields = ['chick_status']  # use 'chick_status' instead of 'status'
+  # Only approve or reject
+class FarmerRegistrationForm(forms.ModelForm):
+    farmer_name = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        label='Farmer Name'
+    )
+
+    class Meta:
+        model = Farmer
+        fields = [
+            'farmer_name',
+            'farmer_age',
+            'farmer_gender',
+            'farmer_nin',
+            'farmer_phone_number',
+            'farmer_type',
+            'recomender_name',
+            'recommender_nin',
+        ]
+        widgets = {
+            'farmer_age': forms.NumberInput(attrs={'class': 'form-control'}),
+            'farmer_gender': forms.Select(attrs={'class': 'form-control'}),
+            'farmer_nin': forms.TextInput(attrs={'class': 'form-control'}),
+            'farmer_phone_number': forms.TextInput(attrs={'class': 'form-control'}),
+            'farmer_type': forms.Select(attrs={'class': 'form-control'}),
+            'recomender_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'recommender_nin': forms.TextInput(attrs={'class': 'form-control'}),
+        }
 
 class ChickrequestForm(forms.ModelForm):
     class Meta:
@@ -42,38 +97,8 @@ class ChickrequestForm(forms.ModelForm):
         if self.farmer:
             farmer_type = getattr(self.farmer, 'farmer_type', None)
 
-            if farmer_type == 'starter' and quantity != 100:
+            if farmer_type == 'Starter' and quantity != 100:
                 self.add_error('chick_quantity', 'Starter farmers must request exactly 100 chicks.')
 
-            elif farmer_type == 'returning' and (quantity < 1 or quantity > 500):
-                self.add_error('chick_quantity', 'Returning farmers must request between 1 and 500 chicks.')
-
-
-class FarmerRegistrationForm(forms.ModelForm):
-    farmer_name = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control'}),
-        label='Farmer Name'
-    )
-
-    class Meta:
-        model = Farmer
-        fields = [
-            'farmer_name',
-            'farmer_age',
-            'farmer_gender',
-            'farmer_nin',
-            'farmer_phone_number',
-            'farmer_type',
-            'recomender_name',
-            'recommender_nin',
-        ]
-        widgets = {
-            'farmer_age': forms.NumberInput(attrs={'class': 'form-control'}),
-            'farmer_gender': forms.Select(attrs={'class': 'form-control'}),
-            'farmer_nin': forms.TextInput(attrs={'class': 'form-control'}),
-            'farmer_phone_number': forms.TextInput(attrs={'class': 'form-control'}),
-            'farmer_type': forms.Select(attrs={'class': 'form-control'}),
-            'recomender_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'recommender_nin': forms.TextInput(attrs={'class': 'form-control'}),
-        }
-
+            elif farmer_type == 'Returner' and (quantity < 1 or quantity > 500):
+                self.add_error('chick_quantity', 'Returner farmers must request between 1 and 500 chicks.')

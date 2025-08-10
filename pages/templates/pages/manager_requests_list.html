@@ -1,0 +1,41 @@
+{% extends 'pages/base.html' %}
+
+{% block content %}
+<h2 class="my-4">Manager - Chick Requests</h2>
+
+<table class="table table-bordered table-hover text-center">
+  <thead class="table-dark">
+    <tr>
+      <th>#</th>
+      <th>Farmer Name</th>
+      <th>Chick Type</th>
+      <th>Quantity</th>
+      <th>Date Requested</th>
+      <th>Status</th>
+      <th>Feed Needed</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for request in chick_requests %}
+    <tr>
+      <td>{{ forloop.counter }}</td>
+      <td>{{ request.farmer_name }}</td>
+      <td>{{ request.chick_type }}</td>
+      <td>{{ request.chick_quantity }}</td>
+      <td>{{ request.chick_date|date:"Y-m-d H:i" }}</td>
+      <td>{{ request.chick_status|capfirst }}</td>
+      <td>{{ request.feed_needed|capfirst }}</td>
+      <td>
+        <a href="{% url 'approve_request' request.id %}" class="btn btn-sm btn-primary">Approve</a>
+        <a href="{% url 'reject_request' request.id %}" class="btn btn-sm btn-danger">Reject</a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="8">No chick requests found.</td>
+    </tr>
+    
+  </tbody>
+</table>
+{% endblock %}

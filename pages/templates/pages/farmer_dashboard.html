@@ -1,0 +1,58 @@
+{% extends 'pages/base.html' %}
+
+{% block content %}
+<div class="container py-4">
+  <h1 class="text-success mb-4">Check Your Chick Request Status</h1>
+
+  <form method="GET" class="mb-4">
+    <div class="input-group">
+      <input
+        type="search"
+        name="q"
+        class="form-control"
+        placeholder="Enter your name or NIN to search"
+        value="{{ query }}"
+        aria-label="Search"
+      />
+      <button class="btn btn-success" type="submit">Search</button>
+    </div>
+  </form>
+
+  {% if chick_requests %}
+    <table class="table table-bordered table-striped border-success">
+      <thead class="table-success">
+        <tr>
+          <th>Farmer Name</th>
+          <th>Chick Quantity</th>
+          <th>Chick Type</th>
+          <th>Date Requested</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for req in chick_requests %}
+          <tr>
+            <td>{{ req.farmer_name.farmer_name }}</td>
+            <td>{{ req.chick_quantity }}</td>
+            <td>{{ req.chick_type }}</td>
+            <td>{{ req.chick_date|date:"M d, Y" }}</td>
+            <td>
+              {% if req.chick_status == 'approved' %}
+                <span class="badge bg-success">Approved</span>
+              {% elif req.chick_status == 'pending' %}
+                <span class="badge bg-warning text-dark">Pending</span>
+              {% elif req.chick_status == 'rejected' %}
+                <span class="badge bg-danger">Rejected</span>
+              {% else %}
+                <span class="badge bg-secondary">{{ req.chick_status|capfirst }}</span>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No chick requests found matching your search.</p>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'pages/base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Review Chick Request</h2>
+  <p><strong>Farmer:</strong> {{ request_obj.farmer.user.get_full_name }}</p>
+  <p><strong>Chick Type:</strong> {{ request_obj.chick_type }}</p>
+  <p><strong>Quantity:</strong> {{ request_obj.quantity }}</p>
+  <p><strong>Farmer Type:</strong> {{ request_obj.farmer_type }}</p>
+  <p><strong>Requested At:</strong> {{ request_obj.requested_at|date:"Y-m-d H:i" }}</p>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Submit</button>
+    <a href="{% url 'manager_dashboard' %}" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+{% endblock %}

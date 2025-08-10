@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Young4Chicks</title>
+  <link rel="stylesheet" href="/static/bootstrap-5.3.7-dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+  <style>
+    /* Your sidebar CSS here (or keep it inline in sidebar) */
+  </style>
+</head>
+<body>
+
+  {% include 'pages/navbar.html' %}  <!-- Navbar on top -->
+
+  {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Public Farmer Dashboard{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 bg-light p-3">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h6 class="px-3 mb-3 text-muted text-uppercase">Farmer</h6>
+                        <ul class="nav flex-column" style="list-style:none; padding-left:0;">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'manager_dashboard' %}">Approved Request</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'register_farmer' %}">Pending Request</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'my_requests' %}">Contact us</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main content -->
+            <div class="col-md-9 col-lg-10 p-4">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+  <script src="/static/bootstrap-5.3.7-dist/js/bootstrap.bundle.js"></script>
+</body>
+</html>

@@ -1,59 +1,65 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Young4Chicks</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link
-      rel="stylesheet"
-      href="/static/bootstrap-5.3.7-dist/css/bootstrap.min.css"
-    />
-  </head>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Young4Chicks</title>
+  <link rel="stylesheet" href="/static/bootstrap-5.3.7-dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
-  <body>
-    <div>{% include 'pages/navbar.html' %}</div>
-    <div class="container-fluid">
-      <div class="row">
-        <!-- Sidebar -->
-        <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar py-4">
-          <ul class="nav flex-column ms-3">
-            <li class="nav-item mb-2">
-              <a
-                class="nav-link"
-                aria-current="page"
-                href="{% url 'salesagent' %}"
-              >
-                <strong>Dashboard</strong>
-              </a>
-            </li>
-            <li class="nav-item mb-2">
-              <a class="nav-link" href="{% url 'register_farmer' %}"
-                >Register Farmer</a
-              >
-            </li>
-            <li class="nav-item mb-2">
-              <a class="nav-link" href="{% url 'record_requests' %}"
-                >Record Requests</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'approved_sales' %}"
-                >Approved Sales</a
-              >
-            </li>
-          </ul>
-        </nav>
+  <style>
+    /* Your sidebar CSS here (or keep it inline in sidebar) */
+  </style>
+</head>
+<body>
 
-        <!-- Main content -->
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-          {% block content %}
-          <!-- Content will be injected here by child templates -->
-          {% endblock %}
-        </main>
-      </div>
+  {% include 'pages/navbar.html' %}  <!-- Navbar on top -->
+
+  <div class="container-fluid">
+    <div class="row">
+ 
+      <!-- Sidebar -->
+      <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar py-4">
+        <div class="card">
+          <div class="card-body">
+            {% if user.user_type == 'sales_agent' %}
+            <h6 class="px-3 mb-3 text-muted text-uppercase">Sales Agent</h6>
+            <ul class="nav flex-column" style="list-style:none; padding-left:0;">
+              
+              <li class="nav-item"><a class="nav-link" href="{% url 'sales_agent_dashboard' %}">Dashboard</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'register_farmer' %}">Register Farmer</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'my_requests' %}">Create Requests</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'record_request' %}">Recorded Requests</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'approved_sales' %}">Approved Sales</a></li>
+            </ul>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="card mt-3">
+          <div class="card-body">
+            {% if user.user_type == 'manager' %}
+            <h6 class="px-3 mb-3 text-muted text-uppercase">Manager</h6>
+            <ul class="nav flex-column" style="list-style:none; padding-left:0;">
+              <li class="nav-item"><a class="nav-link" href="{% url 'manager_dashboard' %}">Dashboard</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'register_farmer' %}">Chick Request</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'my_requests' %}">Young Farmer</a></li>
+            </ul>
+            {% endif %}
+          </div>
+        </div>
+      </nav>
+
+      <!-- Main content -->
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        {% block content %}
+        <!-- Page specific content goes here -->
+        {% endblock %}
+      </main>
+
     </div>
+  </div>
 
-    <script src="/static/bootstrap-5.3.7-dist/js/bootstrap.bundle.js"></script>
-  </body>
+  <script src="/static/bootstrap-5.3.7-dist/js/bootstrap.bundle.js"></script>
+</body>
 </html>

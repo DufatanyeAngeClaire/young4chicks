@@ -1,70 +1,25 @@
-<!DOCTYPE html>
+<tbody>
+  {% for request in chick_requests %}
+  <tr>
+    <td>{{ forloop.counter }}</td>
+    <td>{{ request.farmer_name }}</td>
+    <td>{{ request.chick_type }}</td>
+    <td>{{ request.chick_quantity }}</td>
+    <td>{{ request.chick_date }}</td>
+    <td>{{ request.chick_status }}</td>
+    <td>{{ request.feed_needed }}</td>
+    <td>{{ request.chickperiod }}</td>
+    <td>{{ request.chick_delivered }}</td>
+    <td>
+     <a href="{% url 'record_request_edit' request.id %}" class="btn btn-sm btn-warning">Edit</a>
+     <a href="{% url 'delete_request' request.id %}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this Request?');">Delete</a>
+     <a href="{% url 'send_request' request.id %}" class="btn btn-sm btn-success">Send Request</a>
 
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="/static/bootstrap-5.3.7-dist/css/bootstrap.min.css">
-    </head>
-    
-<body>
-    {% include 'pages/navbar.html' %}
-    
-    <div class="container mt-4">
-        {% block content %}
-        {% endblock %}
-    </div>
-
-      <div class="container-fluid">
-  <div class="row">
-    <!-- Sidebar -->
-    <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar py-4">
-      <ul class="nav flex-column ms-3">
-        <li class="nav-item mb-2">
-          <!-- <a class="nav-link" href="{% url 'stock' %}">
-            <i class="bi bi-box-seam"></i> Manage Stock
-             </a> -->
-
-          <a class="nav-link active" aria-current="page" href="{% url 'salesagent' %}">
-            <strong>Dashboard</strong>
-          </a>
-        </li>
-
-           <li class="nav-item">
-             
-            </li>
-            <li class="nav-item">
-              
-            </li>
-            <li class="nav-item mb-2">
-          <a class="nav-link" href="{% url 'register_farmer' %}">Register Farmer</a>
-        </li>
-         <li class="nav-item mb-2">
-          <a class="nav-link" href="{% url 'record_requests' %}">Record Requests</a>
-        </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'approved_sales' %}">Approved Sales</a>
-            </li>
-       
-    
-        </li>
-      </ul>
-    </nav>
-
-    <!-- Main content area -->
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-      <!-- Your main page content goes here -->
-    </main>
-  </div>
-</div>
-</body>
-</html>
-
-
-        
-        <script src="/static/bootstrap-5.3.7-dist/js/bootstrap.bundle.js" async defer></script>
-    </body>
-</html>
+    </td>
+  </tr>
+  {% empty %}
+  <tr>
+    <td colspan="10">No requests found.</td>
+  </tr>
+  {% endfor %}
+</tbody>
