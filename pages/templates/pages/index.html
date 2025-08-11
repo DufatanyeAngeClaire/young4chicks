@@ -1,36 +1,79 @@
+{% load static %}
 <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Welcome to Young4Chicks</title>
+  <link rel="stylesheet" href="{% static 'bootstrap-5.3.7-dist/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="/static/bootstrap-5.3.7-dist/css/bootstrap.min.css">
-    </head>
-    <body>
-        {% include 'pages/navbar.html' %}
-    
-    <div class="container mt-4">
-        {% block content %}
-        {% endblock %}
-    </div>
-      <div>
-<h1 style="text-align: center;">Welcome to Young4Chicks</h1><br>
-<table class="table table-striped">
-  <thead>
-    <th>Farmer Name</th>
-    <th>Chick Type</th>
-    <th>Chick Quantity</th>
-    <th>Chick Age</th>
-    <th>Chick Status</th>
-    <th>Feed Needed</th>
-  </thead>
+  <style>
+    /* Define your 3 main colors here */
+    :root {
+      --color-primary: #198754; /* Bootstrap green */
+      --color-secondary: #e5e9ee; /* Bootstrap blue */
+      --color-accent: #484847; /* Bootstrap yellow */
+    }
+    body {
+      background: #f8f9fa;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .landing-container {
+      text-align: center;
+      max-width: 480px;
+      background: white;
+      padding: 3rem 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .landing-container h1 {
+      color: var(--color-primary);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      font-size: 3rem;
+    }
+    .landing-container p {
+      font-size: 1.25rem;
+      color: #444;
+      margin-bottom: 2rem;
+    }
+    .btn-primary {
+      background-color: var(--color-primary);
+      border-color: var(--color-primary);
+      font-weight: 600;
+      padding: 0.75rem 1.5rem;
+      margin-right: 1rem;
+      transition: background-color 0.3s ease;
+    }
+    .btn-primary:hover {
+      background-color: #157347; /* slightly darker green */
+      border-color: #157347;
+    }
+    .btn-secondary {
+      background-color: var(--color-secondary);
+      border-color: var(--color-secondary);
+      font-weight: 600;
+      padding: 0.75rem 1.5rem;
+      transition: background-color 0.3s ease;
+    }
+    .btn-secondary:hover {
+      background-color: #157347; /* slightly darker blue */
+      border-color: #157347;
+    }
+  </style>
+</head>
+<body>
 
-</table>
-</div> 
-        
-        <script src="/static/bootstrap-5.3.7-dist/js/bootstrap.bundle.js" async defer></script>
-    </body>
+  <div class="landing-container">
+    <h1>Young4Chicks</h1>
+    <p>Welcome to Young4Chicks.</p>
+    <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+  </div>
+
+  <script src="{% static 'bootstrap-5.3.7-dist/js/bootstrap.bundle.js' %}"></script>
+</body>
 </html>

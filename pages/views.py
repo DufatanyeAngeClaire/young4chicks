@@ -14,7 +14,7 @@ from .forms import (
     FarmerRegistrationForm,
     ChickStockForm,
     ChickRequestApprovalForm,
-    StockForm,
+    StockForm,Feedstock,FeedstockForm
 )
 
 
@@ -210,20 +210,20 @@ def all_requests(request):
     else:
         return redirect('homepage')
 
-    return render(request, 'pages/all_requests.html', {'requests': requests_list})
+    return render(request, 'pages/all_request.html', {'requests': requests_list})
 
 
 @login_required
 def approve_request(request, id):
     if request.user.user_type != 'manager':
         messages.error(request, "You do not have permission to approve requests.")
-        return redirect('all_requests')
+        return redirect('all_request')
 
     chick_request = get_object_or_404(Chickrequest, id=id)
     chick_request.chick_status = 'approved'
     chick_request.save()
     messages.success(request, f"Request #{id} approved successfully.")
-    return redirect('all_requests')
+    return redirect('all_request')
 
 
 @login_required
@@ -236,7 +236,7 @@ def reject_request(request, id):
     chick_request.chick_status = 'rejected'
     chick_request.save()
     messages.success(request, f"Request #{id} rejected.")
-    return redirect('all_requests')
+    return redirect('all_request')
 
 
 @login_required
@@ -407,3 +407,66 @@ def public_farmer_requests(request):
         'search_query': search_query,
     }
     return render(request, 'pages/public_farmer_requests.html', context)
+
+
+
+from django.contrib.auth.decorators import user_passes_test
+
+def is_manager(user):
+    return user.is_authenticated and user.user_type == 'manager'
+
+
+@user_passes_test(is_manager)
+def stock_list(request):
+    stocks = Stock.objects.all()
+    return render(request, 'pages/stock_list.html', {'stocks': stocks})
+
+
+@user_passes_test(is_manager)
+def stock_add(request):
+    if request.method == 'POST':
+        form = StockForm(request.POST)
+        if form.is_valid():
+            stock = form.save(commit=False)
+            stock.registered_by = request.user
+            stock.save()
+            return redirect('stock_list')
+    else:
+        form = StockForm()
+    return render(request, 'pages/stock_form.html', {'form': form})
+def add_feed_stock(request):
+    if request.method == 'POST':
+        form = FeedstockForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('feed_stock_list')  # or wherever you want to redirect after adding
+    else:
+        form = FeedstockForm()
+    return render(request, 'pages/add_feed_stock.html', {'form': form})
+
+@user_passes_test(is_manager)
+def feedstock_list(request):
+    feeds = Feedstock.objects.all()
+    return render(request, 'pages/feedstock_list.html', {'feeds': feeds})
+
+
+@user_passes_test(is_manager)
+def feedstock_add(request):
+    if request.method == 'POST':
+        form = FeedstockForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('feedstock_list')
+    else:
+        form = FeedstockForm()
+    return render(request, 'pages/feedstock_form.html', {'form': form})
+
+
+
+def add_stock(request):
+    # your code here
+    return render(request, 'pages/add_stock.html')
+
+def edit_stock(request, id):
+    # your code here
+    return render(request, 'pages/edit_stock.html')

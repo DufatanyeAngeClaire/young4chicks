@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from .models import Userprofile, Chickrequest
 from .models import Farmer
-from .models import  Stock, Chickrequest
+from .models import  Stock, Chickrequest,Feedstock
 class SignupForm(UserCreationForm):
     class Meta:
         model = Userprofile
@@ -102,3 +102,19 @@ class ChickrequestForm(forms.ModelForm):
 
             elif farmer_type == 'Returner' and (quantity < 1 or quantity > 500):
                 self.add_error('chick_quantity', 'Returner farmers must request between 1 and 500 chicks.')
+
+
+
+
+
+class FeedstockForm(forms.ModelForm):
+    class Meta:
+        model = Feedstock
+        fields = ['feed_name', 'feed_quantity', 'unit_price', 'cost_price', 'chick_type', 'feed_type', 'feed_brand', 'feed_supplier', 'selling_price', 'buying_price']
+        widgets = {
+            'feed_quantity': forms.NumberInput(attrs={'min': 0}),
+            'unit_price': forms.NumberInput(attrs={'min': 0}),
+            'cost_price': forms.NumberInput(attrs={'min': 0}),
+            'selling_price': forms.NumberInput(attrs={'min': 0}),
+            'buying_price': forms.NumberInput(attrs={'min': 0}),
+        }

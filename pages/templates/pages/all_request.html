@@ -2,51 +2,83 @@
 
 {% block content %}
 <div class="container mt-4">
-  <h2>All Chick Requests</h2>
+  <div class="card shadow-lg border-0 rounded-3">
+    <div class="card-header bg-success text-white text-center py-3">
+      <h4 class="mb-0">All Chick Requests</h4>
+    </div>
+    <div class="card-body">
+      {% if requests %}
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered align-middle">
+            <thead class="table-success text-center">
+              <tr>
+                <th>Farmer</th>
+                <th>Chick Type</th>
+                <th>Quantity</th>
+                <th>Status</th>
+                <th>Feed Needed</th>
+                <th>Period (days)</th>
+                <th>Requested By</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for req in requests %}
+                <tr>
+                  <td>{{ req.farmer_name }}</td>
+                  <td>{{ req.chick_type }}</td>
+                  <td class="text-center">{{ req.chick_quantity }}</td>
+                  <td>
+                    {% if req.chick_status == 'approved' %}
+                      <span class="badge bg-success">Approved</span>
+                    {% elif req.chick_status == 'pending' %}
+                      <span class="badge bg-warning text-dark">Pending</span>
+                    {% else %}
+                      <span class="badge bg-danger">Rejected</span>
+                    {% endif %}
+                  </td>
+                  <td>{{ req.feed_needed }}</td>
+                  <td class="text-center">{{ req.chickperiod }}</td>
+                  <td>{{ req.sales_agent }}</td>
+                  <td>{{ req.chick_date|date:"Y-m-d H:i" }}</td>
+                 <td>
+  <div class="btn-group btn-group-sm" role="group" aria-label="Actions">
+    {% if request.user == req.sales_agent %}
+      <a href="{% url 'record_request' req.id %}" 
+         class="btn btn-warning btn-sm">
+        Edit
+      </a>
+      <a href="{% url 'delete_request' req.id %}" 
+         class="btn btn-danger btn-sm" 
+         onclick="return confirm('Delete this request?');">
+        Delete
+      </a>
+    {% endif %}
 
-  {% if requests %}
-    <table class="table table-bordered table-striped">
-      <thead>
-        <tr>
-          <th>Farmer</th>
-          <th>Chick Type</th>
-          <th>Quantity</th>
-          <th>Status</th>
-          <th>Feed Needed</th>
-          <th>Period (days)</th>
-          <th>Requested By</th>
-          <th>Date</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for req in requests %}
-          <tr>
-            <td>{{ req.farmer_name }}</td>
-            <td>{{ req.chick_type }}</td>
-            <td>{{ req.chick_quantity }}</td>
-            <td>{{ req.get_chick_status_display }}</td>
-            <td>{{ req.feed_needed }}</td>
-            <td>{{ req.chickperiod }}</td>
-            <td>{{ req.sales_agent }}</td>
-            <td>{{ req.chick_date|date:"Y-m-d H:i" }}</td>
-           <td>
-  {% if request.user == req.sales_agent %}
-  <a href="{% url 'record_request' req.id %}" class="btn btn-sm btn-warning">Edit</a>
-    <a href="{% url 'delete_request' req.id %}" class="btn btn-sm btn-danger" onclick="return confirm('Delete this request?');">Delete</a>
-  {% endif %}
-  {% if request.user.user_type == 'manager' and req.chick_status == 'pending' %}
-    <a href="{% url 'approve_request' req.id %}" class="btn btn-sm btn-success">Approve</a>
-    <a href="{% url 'reject_request' req.id %}" class="btn btn-sm btn-danger">Reject</a>
-  {% endif %}
+    {% if request.user.user_type == 'manager' and req.chick_status == 'pending' %}
+      <a href="{% url 'approve_request' req.id %}" 
+         class="btn btn-success btn-sm">
+       Approve
+      </a>
+      <a href="{% url 'reject_request' req.id %}" 
+         class="btn btn-secondary btn-sm">
+        Reject
+      </a>
+    {% endif %}
+  </div>
 </td>
 
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  {% else %}
-    <p>No chick requests found.</p>
-  {% endif %}
+                  
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <p class="text-muted text-center my-3">No chick requests found.</p>
+      {% endif %}
+    </div>
+  </div>
 </div>
 {% endblock %}

@@ -42,8 +42,11 @@
             <h6 class="px-3 mb-3 text-muted text-uppercase">Manager</h6>
             <ul class="nav flex-column" style="list-style:none; padding-left:0;">
               <li class="nav-item"><a class="nav-link" href="{% url 'manager_dashboard' %}">Dashboard</a></li>
-              <li class="nav-item"><a class="nav-link" href="{% url 'register_farmer' %}">Chick Request</a></li>
-              <li class="nav-item"><a class="nav-link" href="{% url 'my_requests' %}">Young Farmer</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'all_request' %}">Chick Request</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'stock_list' %}">Chick Stock</a></li>
+           
+
+              <li class="nav-item"> <a class="nav-link" href="{% url 'feed_stock_list' %}">Feed Stock</a></li>
             </ul>
             {% endif %}
           </div>

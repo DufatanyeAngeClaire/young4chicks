@@ -25,6 +25,8 @@ class Userprofile(AbstractUser):
     )
     title = models.CharField(max_length=5, blank=True, null=True)
 
+    created_at = models.DateTimeField(default=timezone.now)  # Separate field here
+
     @property
     def is_manager(self):
         return self.user_type == 'manager'
@@ -37,9 +39,11 @@ class Userprofile(AbstractUser):
         db_table = "user_profiles"
         verbose_name = "User"
         verbose_name_plural = "Users"
+        ordering = ['created_at']
 
     def __str__(self):
         return f"{self.username} ({self.get_user_type_display()})"
+
 
 
 class ChickType(models.Model):
@@ -90,7 +94,7 @@ class Feedstock(models.Model):
     ('Biyinzika Poultry International Limited', 'Biyinzika Poultry International Limited'),
    ]
     feed_brand = models.CharField(max_length=100,choices=FEED_BRANG)
-    date = models.DateField(auto_now=True)
+    date_added = models.DateField(auto_now=True)
     feed_supplier = models.CharField(max_length=250)
     selling_price = models.PositiveIntegerField(default=0)
     buying_price = models.PositiveIntegerField(default=0)
@@ -181,18 +185,19 @@ class Chickrequest(models.Model):
      def __str__(self):
         return f'{self.farmer_name} - {self.chick_type} - {self.chick_quantity} - {self.chickperiod} - {self.chick_status} - {self.feed_needed}'
 
-     def clean(self):
-        # Check if farmer is registered
-        if self.farmer_name is None:
-            raise ValidationError("Chick requests must be made by a registered farmer.")
+def clean(self):
+    # Check if farmer is registered
+    if self.farmer_name is None:
+        raise ValidationError("Chick requests must be made by a registered farmer.")
 
-        # Check quantity limits
-        if self.farmer_name.farmer_type == 'Starter' and self.chick_quantity > 100:
-            raise ValidationError("Starter farmers cannot request more than 100 chicks.")
-        elif self.farmer_name.farmer_type == 'Returner' and self.chick_quantity > 500:
-            raise ValidationError("Returning farmers cannot request more than 500 chicks.")
+    # Check quantity limits
+    if self.farmer_name.farmer_type == 'Starter' and self.chick_quantity > 100:
+        raise ValidationError("Starter farmers cannot request more than 100 chicks.")
+    elif self.farmer_name.farmer_type == 'Returner' and self.chick_quantity > 500:
+        raise ValidationError("Returning farmers cannot request more than 500 chicks.")
 
-        # Check 4 months cooldown for requests
+    # Only check cooldown for pending requests
+    if self.chick_status == 'pending':
         four_months_ago = timezone.now() - timedelta(days=120)
         recent_requests = Chickrequest.objects.filter(
             farmer_name=self.farmer_name,
@@ -203,8 +208,3 @@ class Chickrequest(models.Model):
 
         if recent_requests.exists():
             raise ValidationError("You can only request chicks once every 4 months.")
-
-     def save(self, *args, **kwargs):
-        self.full_clean()  # run validations
-        super().save(*args, **kwargs)
-   

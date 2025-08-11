@@ -27,6 +27,7 @@ urlpatterns = [
     path('logout/', views.logout, name='logout'),
 
     # Home & Dashboards
+     path('', views.homepage, name='homepage'), 
      path('', views.public_farmer_requests, name='landing_page'), # Landing page that routes based on user type
      path('', views.landing_page, name='landing_page'),
     path('manager/', views.manager_dashboard, name='manager_dashboard'),
@@ -50,7 +51,7 @@ urlpatterns = [
     path('edit_request/<int:id>/', views.edit_request, name='edit_request'),
     path('delete_request/<int:id>/', views.delete_request, name='delete_request'),
 
-    path('all_requests/', views.all_requests, name='all_requests'),
+    path('all_requests/', views.all_requests, name='all_request'),
 
     path('approve_request/<int:id>/', views.approve_request, name='approve_request'),
     path('reject_request/<int:id>/', views.reject_request, name='reject_request'),
@@ -64,8 +65,15 @@ urlpatterns = [
     path('approved_sales/', views.approved_sales, name='approved_sales'),
 
     # Stock Management
-    path('manager/stock/add/', views.add_or_update_stock, name='add_stock'),
-    path('manager/stock/<int:stock_id>/edit/', views.add_or_update_stock, name='edit_stock'),
+    path('stock/add/', views.add_stock, name='add_stock'),
+    path('stock/edit/<int:id>/', views.edit_stock, name='edit_stock'),
+    path('manager/feed-stock/', views.feedstock_list, name='feed_stock_list'),
+    path('manager/feed-stock/add/', views.add_feed_stock, name='add_feed_stock'),
+
+    path('manager/stock/', views.stock_list, name='stock_list'),
+    path('manager/stock/add/', views.stock_add, name='stock_add'),
+    path('manager/feedstock/', views.feedstock_list, name='feedstock_list'),
+    path('manager/feedstock/add/', views.feedstock_add, name='feedstock_add'),
 
     # Requests List and Send
     path('record_request/', views.record_request, name='record_request'),

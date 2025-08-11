@@ -40,9 +40,9 @@
               {% if req.chick_status == 'approved' %}
                 <span class="badge bg-success">Approved</span>
               {% elif req.chick_status == 'pending' %}
-                <span class="badge bg-warning text-dark">Pending</span>
+                <span class="badge bg-secondary text-dark">Pending</span>
               {% elif req.chick_status == 'rejected' %}
-                <span class="badge bg-danger">Rejected</span>
+                <span class="badge bg-dark">Rejected</span>
               {% else %}
                 <span class="badge bg-secondary">{{ req.chick_status|capfirst }}</span>
               {% endif %}
