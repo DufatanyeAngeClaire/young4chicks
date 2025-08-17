@@ -3,77 +3,72 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Welcome to Young4Chicks</title>
-  <link rel="stylesheet" href="{% static 'bootstrap-5.3.7-dist/css/bootstrap.min.css' %}">
-  <link rel="stylesheet" href="{% static 'css/style.css' %}">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login - Young4Chicks</title>
+  <link rel="stylesheet" href="/static/bootstrap-5.3.7-dist/css/bootstrap.min.css" />
   <style>
-    /* Define your 3 main colors here */
-    :root {
-      --color-primary: #198754; /* Bootstrap green */
-      --color-secondary: #e5e9ee; /* Bootstrap blue */
-      --color-accent: #484847; /* Bootstrap yellow */
-    }
     body {
-      background: #f8f9fa;
-      height: 100vh;
+      background-color: #000;
       display: flex;
-      align-items: center;
       justify-content: center;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      align-items: center;
+      height: 100vh;
+      font-family: Arial, sans-serif;
     }
-    .landing-container {
+    .login-box {
+      background-color: #fff;
+      color: #000;
+      padding: 2rem 3rem;
+      border-radius: 8px;
+      width: 320px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    h2 {
+      color: #2ca02c;
+      margin-bottom: 1.5rem;
       text-align: center;
-      max-width: 480px;
-      background: white;
-      padding: 3rem 2rem;
-      border-radius: 1rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    .landing-container h1 {
-      color: var(--color-primary);
-      font-weight: 700;
-      margin-bottom: 1rem;
-      font-size: 3rem;
-    }
-    .landing-container p {
-      font-size: 1.25rem;
-      color: #444;
-      margin-bottom: 2rem;
     }
     .btn-primary {
-      background-color: var(--color-primary);
-      border-color: var(--color-primary);
+      background-color: #2ca02c;
+      border: none;
+      width: 100%;
       font-weight: 600;
-      padding: 0.75rem 1.5rem;
-      margin-right: 1rem;
-      transition: background-color 0.3s ease;
     }
     .btn-primary:hover {
-      background-color: #157347; /* slightly darker green */
-      border-color: #157347;
-    }
-    .btn-secondary {
-      background-color: var(--color-secondary);
-      border-color: var(--color-secondary);
-      font-weight: 600;
-      padding: 0.75rem 1.5rem;
-      transition: background-color 0.3s ease;
-    }
-    .btn-secondary:hover {
-      background-color: #157347; /* slightly darker blue */
-      border-color: #157347;
+      background-color: #249624;
     }
   </style>
 </head>
 <body>
 
-  <div class="landing-container">
-    <h1>Young4Chicks</h1>
-    <p>Welcome to Young4Chicks.</p>
-    <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+  <div class="login-box">
+    <h2>Login</h2>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-danger">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+
+      <!-- Username -->
+      <div class="mb-3">
+        <label for="id_username" class="form-label">Username</label>
+        <input type="text" name="username" id="id_username" class="form-control" placeholder="Enter username" required>
+      </div>
+
+      <!-- Password -->
+      <div class="mb-3">
+        <label for="id_password" class="form-label">Password</label>
+        <input type="password" name="password" id="id_password" class="form-control" placeholder="Enter password" required>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Login</button>
+    </form>
   </div>
 
-  <script src="{% static 'bootstrap-5.3.7-dist/js/bootstrap.bundle.js' %}"></script>
+  <script src="/static/bootstrap-5.3.7-dist/js/bootstrap.bundle.js"></script>
 </body>
 </html>

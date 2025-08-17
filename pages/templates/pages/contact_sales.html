@@ -1,0 +1,90 @@
+{% extends 'pages/base.html' %}
+
+{% block content %}
+<style>
+  .contact-page-container {
+      margin: 0 auto;
+      padding: 40px 20px;
+      max-width: 600px;
+  }
+
+  .contact-form-container {
+      background-color: #ffffff; /* white */
+      border: 2px solid #008000; /* green border */
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+
+  .contact-form-container label {
+      color: #008000; /* green labels */
+      font-weight: bold;
+  }
+
+  .contact-form-container input,
+  .contact-form-container select,
+  .contact-form-container textarea {
+      border: 2px solid #008000;
+      border-radius: 5px;
+  }
+
+  .contact-form-container .btn-submit {
+      background-color: #008000; /* green button */
+      color: #ffffff;
+      border: 1px solid #004000;
+      font-weight: bold;
+      width: 100%;
+      transition: background-color 0.3s;
+  }
+
+  .contact-form-container .btn-submit:hover {
+      background-color: #004000; /* darker green */
+      color: #ffffff;
+  }
+
+  .contact-form-container h3 {
+      color: #004000;
+      text-align: center;
+      margin-bottom: 25px;
+  }
+
+  .mb-3, .row.mb-3 {
+      margin-bottom: 20px;
+  }
+</style>
+
+<div class="contact-page-container">
+    <div class="contact-form-container">
+        <h3>Contact Sales Rep</h3>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="name" class="form-label">Your Name</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="email" class="form-label">Email (optional)</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email">
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="sales_rep" class="form-label">Select Sales Representative</label>
+                <select class="form-select" id="sales_rep" name="sales_rep" required>
+                    {% for rep in sales_reps %}
+                        <option value="{{ rep.id }}">{{ rep.username }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="message" class="form-label">Message</label>
+                <textarea class="form-control" id="message" name="message" rows="4" placeholder="Write your message" required></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit">Send Message</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

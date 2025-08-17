@@ -6,32 +6,96 @@
   <title>Young4Chicks</title>
   <link rel="stylesheet" href="/static/bootstrap-5.3.7-dist/css/bootstrap.min.css" />
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
-
   <style>
-    /* Your sidebar CSS here (or keep it inline in sidebar) */
+    /* Navbar */
+    .navbar-custom {
+      background-color: black;
+    }
+    .navbar-custom .navbar-brand,
+    .navbar-custom .nav-link {
+      color: white;
+    }
+    .navbar-custom .nav-link:hover {
+      color: green;
+    }
+
+    /* Sidebar */
+    .sidebar .card {
+      background-color: black;
+      color: white;
+      border: none;
+    }
+    .sidebar .card-body h6 {
+      color: green;
+    }
+    .sidebar .nav-link {
+      color: white;
+      padding-left: 0.5rem;
+    }
+    .sidebar .nav-link:hover {
+      color: green;
+      text-decoration: underline;
+    }
+
+    /* Main content */
+    main {
+      background-color: white;
+      color: black;
+      min-height: 100vh;
+    }
+
+    /* Cards inside main content */
+    .card {
+      border-radius: 0.5rem;
+    }
+
+    /* Table styling */
+    table {
+      border: 1px solid black;
+    }
+    thead {
+      background-color: black;
+      color: white;
+    }
+    tbody tr:hover {
+      background-color: #e6ffe6; /* subtle green hover */
+    }
+
+    /* Badges */
+    .badge-approved {
+      background-color: green;
+      color: white;
+    }
+    .badge-pending {
+      background-color: black;
+      color: white;
+    }
+    .badge-rejected {
+      background-color: white;
+      color: black;
+      border: 1px solid black;
+    }
   </style>
 </head>
 <body>
-
+<body>
   {% include 'pages/navbar.html' %}  <!-- Navbar on top -->
 
   <div class="container-fluid">
     <div class="row">
- 
       <!-- Sidebar -->
-      <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar py-4">
+      <nav class="col-md-3 col-lg-2 d-md-block sidebar py-4">
         <div class="card">
           <div class="card-body">
             {% if user.user_type == 'sales_agent' %}
-            <h6 class="px-3 mb-3 text-muted text-uppercase">Sales Agent</h6>
-            <ul class="nav flex-column" style="list-style:none; padding-left:0;">
-              
-              <li class="nav-item"><a class="nav-link" href="{% url 'sales_agent_dashboard' %}">Dashboard</a></li>
-              <li class="nav-item"><a class="nav-link" href="{% url 'register_farmer' %}">Register Farmer</a></li>
-              <li class="nav-item"><a class="nav-link" href="{% url 'my_requests' %}">Create Requests</a></li>
-              <li class="nav-item"><a class="nav-link" href="{% url 'record_request' %}">Recorded Requests</a></li>
-              <li class="nav-item"><a class="nav-link" href="{% url 'approved_sales' %}">Approved Sales</a></li>
-            </ul>
+              <h6 class="px-3 mb-3 text-uppercase">Sales Agent</h6>
+              <ul class="nav flex-column" style="list-style:none; padding-left:0;">
+                <li class="nav-item"><a class="nav-link" href="{% url 'sales_agent_dashboard' %}">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'register_farmer' %}">Register Farmer</a></li>
+                <li class="nav-item"><a href="{% url 'record_request_create' %}" class="btn btn-success">Make a New Request</a></li>
+                <li class="nav-item"><a href="{% url 'sales_agent_messages' %}" class="nav-link">Messages</a>
+</li>
+              </ul>
             {% endif %}
           </div>
         </div>
@@ -39,15 +103,13 @@
         <div class="card mt-3">
           <div class="card-body">
             {% if user.user_type == 'manager' %}
-            <h6 class="px-3 mb-3 text-muted text-uppercase">Manager</h6>
-            <ul class="nav flex-column" style="list-style:none; padding-left:0;">
-              <li class="nav-item"><a class="nav-link" href="{% url 'manager_dashboard' %}">Dashboard</a></li>
-              <li class="nav-item"><a class="nav-link" href="{% url 'all_request' %}">Chick Request</a></li>
-              <li class="nav-item"><a class="nav-link" href="{% url 'stock_list' %}">Chick Stock</a></li>
-           
-
-              <li class="nav-item"> <a class="nav-link" href="{% url 'feed_stock_list' %}">Feed Stock</a></li>
-            </ul>
+              <h6 class="px-3 mb-3 text-uppercase">Manager</h6>
+              <ul class="nav flex-column" style="list-style:none; padding-left:0;">
+                <li class="nav-item"><a class="nav-link" href="{% url 'manager_dashboard' %}">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'stock_list' %}">Chick Stock</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'feedstock_list' %}">Feed Stock</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'delivered' %}">Delivered sales</a></li>
+              </ul>
             {% endif %}
           </div>
         </div>
@@ -55,14 +117,28 @@
 
       <!-- Main content -->
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        <!-- Display Django messages -->
+        {% if messages %}
+        <div class="container mt-3">
+          {% for message in messages %}
+            <div 
+              class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %} alert-dismissible fade show" 
+              role="alert">
+              {{ message }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+
         {% block content %}
         <!-- Page specific content goes here -->
         {% endblock %}
       </main>
-
     </div>
   </div>
 
   <script src="/static/bootstrap-5.3.7-dist/js/bootstrap.bundle.js"></script>
 </body>
+
 </html>

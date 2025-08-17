@@ -1,0 +1,43 @@
+{% extends 'pages/base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h3 class="mb-4 text-center" style="color: #004d00;">Delivered Chick Requests</h3>
+
+  {% if delivered_requests %}
+    <div class="table-responsive">
+      <table class="table table-bordered align-middle text-center">
+        <thead style="background-color: #004d00; color: white;">
+          <tr>
+            <th>Farmer</th>
+            <th>Chick Type</th>
+            <th>Quantity</th>
+            <th>Delivered</th>
+            <th>Sales Agent</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody style="color: black;">
+          {% for req in delivered_requests %}
+          <tr> style="background-color: {% cycle '#e6ffe6' '#ccffcc' %};"</tr>
+            <td>{{ req.farmer_name }}</td>
+            <td>{{ req.chick_type }}</td>
+            <td>{{ req.chick_quantity }}</td>
+            <td>
+              {% if req.chick_delivered == 'yes' %}
+                <span class="badge" style="background-color: black; color: white;">Yes</span>
+              {% else %}
+                <span class="badge" style="background-color: white; color: black; border: 1px solid black;">No</span>
+              {% endif %}
+            </td>
+            <td>{{ req.sales_agent }}</td>
+            <td>{{ req.chick_date|date:"Y-m-d H:i" }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p class="text-center" style="color: #004d00; font-weight:bold;">No delivered requests found.</p>
+  {% endif %}
+</div>
+{% endblock %}

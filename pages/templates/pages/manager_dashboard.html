@@ -2,133 +2,119 @@
 
 {% block content %}
 <div class="container mt-4">
-
-  <h2 class="mb-4 text-center" style="color: #004d00;">Welcome Manager</h2>
-
-  <!-- Summary Cards -->
-  <div class="row mb-4">
-    <div class="col-md-4 mb-3">
-      <div class="card h-100" style="background-color: black; color: white;">
-        <div class="card-body text-center">
-          <h5 class="card-title">Total Chick Stock</h5>
-          <p class="card-text display-4">{{ chick_stock|length }}</p>
-          <small>Total Types</small>
+<!-- 
+  Django Messages -->
+  <!-- {% if messages %}
+    <div class="mb-3">
+      {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-      </div>
+      {% endfor %}
     </div>
-    <div class="col-md-4 mb-3">
-      <div class="card h-100" style="background-color: white; color: black; border: 2px solid #004d00;">
-        <div class="card-body text-center">
-          <h5 class="card-title">Pending Requests</h5>
-          <p class="card-text display-4" style="color: #004d00;">{{ pending_requests|length }}</p>
-          <small>Waiting Approval</small>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4 mb-3">
-      <div class="card h-100" style="background-color: #004d00; color: white;">
-        <div class="card-body text-center">
-          <h5 class="card-title">Approved Requests</h5>
-          <p class="card-text display-4">{{ approved_requests|length }}</p>
-          <small>Requests Approved</small>
-        </div>
+  {% endif %} --> 
+
+<!-- First row: Chick & Feed stock -->
+<div class="row mb-4">
+  <!-- Layers Stock Card -->
+  <div class="col-md-3 mb-3">
+    <div class="card h-100 text-center" style="background-color: #004d00; color: white;">
+      <div class="card-body py-3">
+        <h5 class="card-title">Layers Stock</h5>
+        <p class="card-text h3">{{ stock_summary.layer.total_quantity|default:"0" }}</p>
+        <small>Available</small>
       </div>
     </div>
   </div>
 
-  <!-- Chick Stock Table -->
-  <h3 style="color: #004d00;">Chick Stock</h3>
-  <a href="{% url 'add_stock' %}" class="btn btn-success mb-3">Add New Stock</a>
-  <div class="table-responsive mb-5">
-    <table class="table align-middle" style="color: black;">
-      <thead style="background-color: black; color: white;">
-        <tr>
-          <th>Type</th>
-          <th>Quantity</th>
-          <th>Period (days)</th>
-          <th>Last Updated</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for stock in chick_stock %}
-        <tr style="background-color: white;">
-          <td>{{ stock.chick_type }}</td>
-          <td>{{ stock.quantity }}</td>
-          <td>{{ stock.period_days }}</td>
-          <td>{{ stock.last_updated|date:"Y-m-d H:i" }}</td>
-          <td>
-            <a href="{% url 'edit_stock' stock.id %}" class="btn btn-outline-success btn-sm">Edit</a>
-          </td>
-        </tr>
-        {% empty %}
-        <tr><td colspan="5" class="text-center" style="color: black;">No stock records found.</td></tr>
-        {% endfor %}
-      </tbody>
-    </table>
+  <!-- Broilers Stock Card -->
+  <div class="col-md-3 mb-3">
+    <div class="card h-100 text-center" style="background-color: black; color: white;">
+      <div class="card-body py-3">
+        <h5 class="card-title">Broilers Stock</h5>
+        <p class="card-text h3">{{ stock_summary.broiler.total_quantity|default:"0" }}</p>
+        <small>Available</small>
+      </div>
+    </div>
   </div>
 
-  <!-- Pending Chick Requests -->
-  <h3 style="color: #004d00;">Pending Chick Requests</h3>
-  <div class="table-responsive mb-5">
-    <table class="table align-middle" style="color: black;">
-      <thead style="background-color: black; color: white;">
-        <tr>
-          <th>Farmer</th>
-          <th>Chick Type</th>
-          <th>Quantity</th>
-          <th>Farmer Type</th>
-          <th>Requested At</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for req in pending_requests %}
-        <tr style="background-color: white;">
-          <td>{{ req.farmer.user.get_full_name }}</td>
-          <td>{{ req.chick_type }}</td>
-          <td>{{ req.quantity }}</td>
-          <td>{{ req.farmer_type }}</td>
-          <td>{{ req.requested_at|date:"Y-m-d H:i" }}</td>
-          <td>
-            <a href="{% url 'approve_request' req.id %}" class="btn btn-outline-success btn-sm">Review</a>
-          </td>
-        </tr>
-        {% empty %}
-        <tr><td colspan="6" class="text-center" style="color: black;">No pending requests.</td></tr>
-        {% endfor %}
-      </tbody>
-    </table>
+  <!-- Feed Stock Card -->
+  <div class="col-md-3 mb-3">
+    <div class="card h-100 text-center" style="background-color: #006600; color: white;">
+      <div class="card-body py-3">
+        <h5 class="card-title">Feed Stock</h5>
+        <p class="card-text h3">{{ feed_stock|default:"0" }}</p>
+        <small>Available (kg)</small>
+      </div>
+    </div>
   </div>
+</div>
 
-  <!-- Approved Requests -->
-  <h3 style="color: #004d00;">Approved Requests</h3>
-  <div class="table-responsive mb-5">
-    <table class="table align-middle" style="color: black;">
-      <thead style="background-color: black; color: white;">
-        <tr>
-          <th>Farmer</th>
-          <th>Chick Type</th>
-          <th>Quantity</th>
-          <th>Farmer Type</th>
-          <th>Approved At</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for req in approved_requests %}
-        <tr style="background-color: white;">
-          <td>{{ req.farmer.user.get_full_name }}</td>
-          <td>{{ req.chick_type }}</td>
-          <td>{{ req.quantity }}</td>
-          <td>{{ req.farmer_type }}</td>
-          <td>{{ req.approved_at|date:"Y-m-d H:i" }}</td>
-        </tr>
-        {% empty %}
-        <tr><td colspan="5" class="text-center" style="color: black;">No approved requests yet.</td></tr>
-        {% endfor %}
-      </tbody>
-    </table>
+
+  <!-- All Requests Table -->
+  <div class="card shadow-lg border-0 rounded-3 mt-4">
+    <div class="card-header" style="background-color: #004d00; color: white; text-align: center; padding: 15px;">
+      <h4 class="mb-0">All Chick Requests</h4>
+    </div>
+    <div class="card-body">
+      {% if requests %}
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered align-middle">
+            <thead style="background-color: #004d00; color: white;" class="text-center">
+              <tr>
+                <th>Farmer</th>
+                <th>Chick Type</th>
+                <th>Quantity</th>
+                <th>Status</th>
+                <th>Feed Needed</th>
+                <th>Period (days)</th>
+                <th>Requested By</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody style="color: black;">
+              {% for req in requests %}
+                <tr>
+                  <td>{{ req.farmer_name }}</td>
+                  <td>{{ req.chick_type }}</td>
+                  <td class="text-center">{{ req.chick_quantity }}</td>
+                  <td>
+                    {% if req.chick_status == 'approved' %}
+                      <span class="badge" style="background-color:#004d00; color: white;">Approved</span>
+                    {% elif req.chick_status == 'pending' %}
+                      <span class="badge" style="background-color: white; color: black;">Pending</span>
+                    {% else %}
+                      <span class="badge" style="background-color:black; color: white; border: 1px solid black;">Rejected</span>
+                    {% endif %}
+                  </td>
+                  <td>{{ req.feed_needed }}</td>
+                  <td class="text-center">{{ req.chickperiod }}</td>
+                  <td>{{ req.sales_agent }}</td>
+                  <td>{{ req.chick_date|date:"Y-m-d H:i" }}</td>
+                  <td>
+                    <div class="btn-group btn-group-sm" role="group" aria-label="Actions">
+                      {% if request.user == req.sales_agent %}
+                        <a href="{% url 'record_request_edit' req.id %}" class="btn" style="background-color: black; color: white;">Edit</a>
+                        <a href="{% url 'delete_request' req.id %}" class="btn" style="background-color: #004d00; color: white;"
+                           onclick="return confirm('Delete this request?');">Delete</a>
+                      {% endif %}
+                      {% if request.user.user_type == 'manager' and req.chick_status == 'pending' %}
+                        <a href="{% url 'approve_request' req.id %}" class="btn" style="background-color: black; color: white;">Approve</a>
+                        <a href="{% url 'reject_request' req.id %}" class="btn" style="background-color: white; color: black; border: 1px solid black;">Reject</a>
+                      {% endif %}
+                    </div>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <p class="text-center" style="color: #004d00; font-weight:bold;">No chick requests found.</p>
+      {% endif %}
+    </div>
   </div>
-
 </div>
 {% endblock %}

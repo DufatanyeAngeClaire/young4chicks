@@ -1,0 +1,104 @@
+{% extends 'pages/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<style>
+  /* Button styling */
+  .btn-primary-custom {
+    background-color: #008000; /* green */
+    border-color: #008000;
+    color: white;
+  }
+  .btn-primary-custom:hover {
+    background-color: #004d00; /* darker green */
+    border-color: #004d00;
+  }
+  .btn-secondary {
+    background-color: black;
+    border-color: black;
+    color: white;
+  }
+  .btn-secondary:hover {
+    background-color: #333333;
+    border-color: #333333;
+  }
+
+  /* Card styling */
+  .card-header {
+    background-color: green;
+    color: white;
+  }
+  .card {
+    border: 1px solid green;
+  }
+
+  /* Form fields */
+  .form-control {
+    border: 1px solid black;
+    color: black;
+  }
+  .form-control:focus {
+    border-color: green;
+    box-shadow: 0 0 5px green;
+  }
+
+  /* Labels without asterisks */
+  label {
+    font-weight: bold;
+    color: black;
+  }
+
+  /* Error messages */
+  .text-danger {
+    color: red;
+  }
+</style>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-10">
+      <div class="card shadow-lg">
+        <div class="card-header">
+          <h4>
+            {% if feedstock %}
+              Edit Feed Stock
+            {% else %}
+              Add Feed Stock
+            {% endif %}
+          </h4>
+        </div>
+        <div class="card-body">
+          <form method="POST" novalidate>
+            {% csrf_token %}
+
+            <div class="row">
+              {% for field in form %}
+                <div class="col-md-6 mb-3">
+                  <!-- Render label without asterisk -->
+                  <label for="{{ field.id_for_label }}"></label>
+                  {{ field|as_crispy_field }}
+                  {% if field.errors %}
+                    <div class="text-danger small">{{ field.errors }}</div>
+                  {% endif %}
+                </div>
+              {% endfor %}
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <button type="submit" class="btn btn-primary-custom">
+                {% if feedstock %}
+                  Update
+                {% else %}
+                  Add
+                {% endif %}
+              </button>
+              <a href="{% url 'feedstock_list' %}" class="btn btn-secondary">Cancel</a>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -3,36 +3,37 @@
 
 {% block content %}
 <div class="container mt-4">
-  <h2 class="mb-4">Sales Agent Dashboard</h2>
+
+  <h2 class="mb-4 text-success">Sales Agent Dashboard</h2>
 
   <div class="row g-4">
 
     <!-- Total Requests Card -->
     <div class="col-md-4">
-      <div class="card text-white bg-primary shadow">
-        <div class="card-body">
+      <div class="card shadow border-0" style="background-color: #004d00; color: black;">
+        <div class="card-body text-center">
           <h5 class="card-title">Total Requests</h5>
-          <p class="display-4">{{ total_requests }}</p>
+          <p class="display-5 fw-bold">{{ total_requests }}</p>
         </div>
       </div>
     </div>
 
     <!-- Approved Requests Card -->
     <div class="col-md-4">
-      <div class="card text-white bg-success shadow">
-        <div class="card-body">
+      <div class="card shadow border-0" style="background-color: white; color: black;">
+        <div class="card-body text-center">
           <h5 class="card-title">Approved Requests</h5>
-          <p class="display-4">{{ approved_count }}</p>
+          <p class="display-5 fw-bold">{{ approved_count }}</p>
         </div>
       </div>
     </div>
 
     <!-- Pending Requests Card -->
     <div class="col-md-4">
-      <div class="card text-dark bg-warning shadow">
-        <div class="card-body">
+      <div class="card shadow border-0" style="background-color: black; color: white; border: 2px solid green;">
+        <div class="card-body text-center">
           <h5 class="card-title">Pending Requests</h5>
-          <p class="display-4">{{ pending_count }}</p>
+          <p class="display-5 fw-bold">{{ pending_count }}</p>
         </div>
       </div>
     </div>
@@ -43,8 +44,8 @@
 
   <!-- Requests Table -->
   <div class="table-responsive">
-    <table class="table table-striped table-hover align-middle">
-      <thead class="table-dark">
+    <table class="table table-hover align-middle border shadow">
+      <thead style="background-color: black; color: white;">
         <tr>
           <th>#</th>
           <th>Farmer Name</th>
@@ -61,43 +62,44 @@
           <td>{{ forloop.counter }}</td>
           <td>{{ req.farmer_name.farmer_name }}</td>
           <td>{{ req.chick_date|date:"M d, Y" }}</td>
-          <td>{{ req.chicks_quantity }}</td>
+          <td>{{ req.chick_quantity }}</td>
           <td>
             {% if req.chick_status == 'approved' %}
-              <span class="badge bg-success">Approved</span>
+              <span class="badge" style="background-color: green; color: white;">Approved</span>
             {% elif req.chick_status == 'pending' %}
-              <span class="badge bg-warning text-dark">Pending</span>
+              <span class="badge" style="background-color: black; color: white;">Pending</span>
             {% elif req.chick_status == 'rejected' %}
-              <span class="badge bg-danger">Rejected</span>
+              <span class="badge" style="background-color: white; color: black; border:1px solid black;">Rejected</span>
             {% else %}
               <span class="badge bg-secondary">{{ req.chick_status }}</span>
             {% endif %}
           </td>
           <td>
             {% if req.chick_delivered == 'yes' %}
-              <span class="badge bg-success">Yes</span>
+              <span class="badge" style="background-color: green; color: white;">Yes</span>
             {% elif req.chick_delivered == 'no' %}
-              <span class="badge bg-danger">No</span>
+              <span class="badge" style="background-color: black; color: white;">No</span>
             {% else %}
               <span class="badge bg-secondary">Unknown</span>
             {% endif %}
           </td>
           <td>
-            <a href="{% url 'record_request_edit' req.id %}" class="btn btn-sm btn-outline-primary">Edit</a>
-            <!-- Optionally add a button to update delivery -->
+            <a href="{% url 'record_request_edit' req.id %}" class="btn btn-sm" style="background-color:black; color:white;">Edit</a>
+
+            <!-- Update Delivery Status -->
             <form method="post" action="{% url 'update_delivery_status' req.id %}" class="d-inline">
               {% csrf_token %}
-              <select name="chick_delivered" class="form-select form-select-sm d-inline w-auto">
+              <select name="chick_delivered" class="form-select form-select-sm d-inline w-auto" style="border:1px solid green; color:black;">
                 <option value="yes" {% if req.chick_delivered == 'yes' %}selected{% endif %}>Yes</option>
                 <option value="no" {% if req.chick_delivered == 'no' %}selected{% endif %}>No</option>
               </select>
-              <button type="submit" class="btn btn-sm btn-outline-success">Update</button>
+              <button type="submit" class="btn btn-sm" style="background-color:green; color:white;">Update</button>
             </form>
           </td>
         </tr>
         {% empty %}
         <tr>
-          <td colspan="7" class="text-center">No requests found.</td>
+          <td colspan="7" class="text-center text-muted">No requests found.</td>
         </tr>
         {% endfor %}
       </tbody>

@@ -1,0 +1,39 @@
+{% extends 'pages/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">All Chick Requests</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Farmer</th>
+                <th>Sales Agent</th>
+                <th>Chick Type</th>
+                <th>Quantity</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+{% for req in chick_requests %}
+<tr>
+    <td>{{ req.id }}</td>
+    <td>{{ req.farmer_name.farmer_name|default:"N/A" }}</td>
+    <td>{{ req.sales_agent.username|default:"N/A" }}</td>
+    <td>{{ req.chick_type.name|default:"N/A" }}</td>
+    <td>{{ req.chick_quantity|default:"N/A" }}</td>
+    <td>{{ req.chick_status|default:"Pending" }}</td>
+</tr>
+{% empty %}
+<tr>
+    <td colspan="6" class="text-center">No requests found.</td>
+</tr>
+{% endfor %}
+
+
+      </tbody>
+    </table>
+</div>
+{% endblock %}
+

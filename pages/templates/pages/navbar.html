@@ -2,7 +2,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #222;">
   <div class="container-fluid">
-    <a class="navbar-brand d-flex align-items-center" href="{% url 'landing_page' %}">
+    <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
       <img src="{% static 'image/alvioni__fashion_brand_art_design_logo_20250807_232048_0000-removebg-preview.png' %}" 
            alt="Young4Chicks Logo" 
            style="width: 60px; height: 60px; object-fit: contain;" 
@@ -30,7 +30,7 @@
 
           {% else %}
             <li class="nav-item">
-              <form class="d-flex" method="GET" action="{% url 'landing_page' %}">
+              <form class="d-flex" method="GET" action="{% url 'home' %}">
                 <input class="form-control me-2" type="search" placeholder="Search by Farmer Name" aria-label="Search" name="q" />
                 <button class="btn btn-success" type="submit" style="background-color: #2ca02c; border: none;">Search</button>
               </form>

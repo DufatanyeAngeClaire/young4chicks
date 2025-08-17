@@ -1,0 +1,63 @@
+{% extends "pages/base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="card shadow-sm mx-auto" style="max-width: 900px;">
+    <div class="card-body">
+      <h3 class="card-title text-center mb-4">Add New Stock</h3>
+
+      <form method="POST">
+        {% csrf_token %}
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="id_stock_name" class="form-label">Stock Name</label>
+            {{ form.stock_name }}
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="id_chick_breed" class="form-label">Chick Breed</label>
+            {{ form.chick_breed }}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="id_quantity" class="form-label">Quantity</label>
+            {{ form.quantity }}
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="id_chick_type" class="form-label">Chick Type</label>
+            {{ form.chick_type }}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="id_chick_price" class="form-label">Price per Chick</label>
+            {{ form.chick_price }}
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="id_register_name" class="form-label">Register Name</label>
+            {{ form.register_name }}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="id_chick_age" class="form-label">Chick Age (in weeks)</label>
+            {{ form.chick_age }}
+          </div>
+          <div class="col-md-6 mb-3">
+            <!-- Empty for spacing or future fields -->
+          </div>
+        </div>
+
+        <div class="text-center mt-4">
+          <button type="submit" class="btn btn-success px-4">Save Stock</button>
+          <a href="{% url 'manager_dashboard' %}" class="btn btn-secondary px-4">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

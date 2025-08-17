@@ -21,7 +21,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'pages.apps.PagesConfig',
+     'django.contrib.humanize',
+    
+         'widget_tweaks',
+ "crispy_forms",
+    "crispy_bootstrap5", 
+     
 ]
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -100,3 +108,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Custom user model
 AUTH_USER_MODEL = 'pages.Userprofile'
 
+
+# Authentication settings
+LOGIN_URL = '/login/'              # Where @login_required redirects
+LOGIN_REDIRECT_URL = '/'           # Where to go after successful login
+LOGOUT_REDIRECT_URL = '/login/'    # Where to go after logout
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / "static"]

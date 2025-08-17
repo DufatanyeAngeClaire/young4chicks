@@ -1,0 +1,22 @@
+{% extends "pages/base.html" %}
+{% block content %}
+<div class="container mt-5">
+  <h3 class="mb-4">Farmer Messages</h3>
+
+  {% if messages_list %}
+    <div class="list-group">
+      {% for msg in messages_list %}
+        <div class="list-group-item mb-2 shadow-sm rounded">
+          <h5 class="mb-1">{{ msg.subject }}</h5>
+          <p class="mb-1">{{ msg.message }}</p>
+          <small class="text-muted">
+            From: {{ msg.sender.farmer_name }} | {{ msg.created_at|date:"M d, Y H:i" }}
+          </small>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="text-muted">No messages yet.</p>
+  {% endif %}
+</div>
+{% endblock %}
