@@ -64,7 +64,7 @@ def logout(request):
 # LANDING PAGE
 # -----------------------------
 def landing_page(request):
-    return render(request, "pages/farmer_dashboard.html")
+    return render(request, "pages/index.html")
 
 
 
@@ -76,14 +76,9 @@ def manager_dashboard(request):
 
     # Prepare stock summary
     stock_summary = {}
-
     for chick_type in chick_types:
-        # All stock records for this chick type
         stock_records = Stock.objects.filter(chick_type=chick_type).order_by('date_added')
-
-        # Total quantity for this type
         total_quantity = stock_records.aggregate(total=Sum('quantity'))['total'] or 0
-
         stock_summary[chick_type.name] = {
             'total_quantity': total_quantity,
             'records': stock_records
@@ -101,11 +96,13 @@ def manager_dashboard(request):
         'stock_summary': stock_summary,
         'feed_stock': feed_stock,
         'pending_requests': pending_requests,
+        'pending_requests_count': pending_requests.count(),  # ✅ added
         'approved_requests': approved_requests,
         'requests': requests,
     }
 
     return render(request, 'pages/manager_dashboard.html', context)
+
 
 
 
@@ -134,7 +131,7 @@ def farmer_dashboard(request):
         "chick_requests": chick_requests,
         "query": query,
     }
-    return render(request, "pages/farmer_dashboard.html", context)
+    return render(request, "pages/index.html", context)
 
 def contact_sales(request):
     sales_reps = Userprofile.objects.filter(user_type="sales_agent")

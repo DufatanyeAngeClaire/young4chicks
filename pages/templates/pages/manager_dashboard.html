@@ -45,11 +45,25 @@
       <div class="card-body py-3">
         <h5 class="card-title">Feed Stock</h5>
         <p class="card-text h3">{{ feed_stock|default:"0" }}</p>
-        <small>Available (kg)</small>
+        <small>Available (bags)</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pending Requests Card -->
+  <div class="col-md-3 mb-3">
+    <div class="card h-100 text-center" style="background-color: white; color: black;">
+      <div class="card-body py-3">
+        <h5 class="card-title">Pending Requests</h5>
+        <p class="card-text h3">
+          {{ pending_requests_count|default:"0" }}
+        </p>
+        <small>Awaiting Approval</small>
       </div>
     </div>
   </div>
 </div>
+
 
 
   <!-- All Requests Table -->
