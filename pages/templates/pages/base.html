@@ -88,11 +88,12 @@
         <div class="card">
           <div class="card-body">
             {% if user.user_type == 'sales_agent' %}
-              <h6 class="px-3 mb-3 text-uppercase">Sales Agent</h6>
+              <h6 class="px-3 mb-3 text-uppercase" style="color:green;">Sales Agent</h6>
+
               <ul class="nav flex-column" style="list-style:none; padding-left:0;">
                 <li class="nav-item"><a class="nav-link" href="{% url 'sales_agent_dashboard' %}">Dashboard</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'register_farmer' %}">Register Farmer</a></li>
-                <li class="nav-item"><a href="{% url 'record_request_create' %}" class="btn btn-success">Make a New Request</a></li>
+                <li class="nav-item"><a href="{% url 'record_request_create' %}" class="btn btn-light">Make a New Request</a></li>
                 <li class="nav-item"><a href="{% url 'sales_agent_messages' %}" class="nav-link">Messages</a>
 </li>
               </ul>
@@ -117,7 +118,7 @@
 
       <!-- Main content -->
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-        <!-- Display Django messages -->
+        <!-- Display Django messages  -->
         {% if messages %}
         <div class="container mt-3">
           {% for message in messages %}

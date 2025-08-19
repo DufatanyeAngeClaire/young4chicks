@@ -4,13 +4,22 @@
 {% block content %}
 <div class="container mt-4">
 
-  <h2 class="mb-4 text-success">Sales Agent Dashboard</h2>
+<h2 class="mb-4 text-center" style="color: green;">Sales Agent</h2>
+
+<!-- <style>
+  .card shadow:hover {
+    background-color: black; /* change to black on hover */
+    color: white;
+  }
+  
+</style> -->
 
   <div class="row g-4">
 
     <!-- Total Requests Card -->
     <div class="col-md-4">
-      <div class="card shadow border-0" style="background-color: #004d00; color: black;">
+      
+      <div class="card shadow border-0" style="background-color: green; color: white;">
         <div class="card-body text-center">
           <h5 class="card-title">Total Requests</h5>
           <p class="display-5 fw-bold">{{ total_requests }}</p>
@@ -30,7 +39,7 @@
 
     <!-- Pending Requests Card -->
     <div class="col-md-4">
-      <div class="card shadow border-0" style="background-color: black; color: white; border: 2px solid green;">
+      <div class="card shadow border-0" style="background-color: black; color:green; border: 2px solid white;">
         <div class="card-body text-center">
           <h5 class="card-title">Pending Requests</h5>
           <p class="display-5 fw-bold">{{ pending_count }}</p>
