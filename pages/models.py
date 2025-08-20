@@ -137,7 +137,7 @@ class Farmer(models.Model):
         return f"{self.farmer_name} - {self.recomender_name} - {self.farmer_type} - {self.farmer_age}"
 
     def clean(self):
-        if not (20 <= self.farmer_age <= 30):
+        if not (18 <= self.farmer_age <= 30):
             raise ValidationError('Farmer age must be between 20 and 30.')
 
     def save(self, *args, **kwargs):
